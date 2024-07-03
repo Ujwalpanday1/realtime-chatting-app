@@ -1,0 +1,25 @@
+{
+  "name": "realtime-chat-app",
+  "version": "1.0.0",
+  "description": "a app to do realtime chat",
+  "main": "index.js",
+  "scripts": {
+    "run-dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "ujwal panday",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.3",
+    "nodemailer": "^6.9.14",
+    "socket.io": "^4.7.5"
+  }
+}

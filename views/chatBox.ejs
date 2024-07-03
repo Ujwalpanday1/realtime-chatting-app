@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/chatBox.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <label><%=receiver.fName+" "+receiver.lName%></label>
+        </div>
+        <div class="messages">
+            
+            <%messageArray.forEach((message)=>{%>
+
+                <%if(message.sender==sender._id){%>
+                    <div class="right">
+                        <%=message.message%>
+                    </div>
+
+                    <% }
+                    else{%>
+
+                        <div class="left">
+                            <%=message.message%>
+                        </div>
+
+
+           <% }}) %> 
+        </div>
+        <div class="formBox">
+            <form action="/select/<%=receiver._id%>" method="get" id="form">
+                <input type="text" id="msgBox" name="message" placeholder="Type your message here">
+                <button id="sendBtn" type="submit">send</button>
+
+            </form>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.querySelector(".messages").scrollTop=document.querySelector(".messages").scrollHeight
+        const sender = '<%- JSON.stringify(sender) %>';
+        const senderParsed =JSON.parse(sender);
+        const socket=io();
+        socket.emit("login",senderParsed._id)
+        const receiver = '<%- JSON.stringify(receiver) %>';
+        const receiverParsed = JSON.parse(receiver);
+        const form=document.getElementById("form");
+        const msgBox=document.getElementById("msgBox")
+
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const msg=msgBox.value;
+            msgBox.value="";
+            socket.emit("privateMsg",{receiver:receiverParsed._id,sender:senderParsed._id,message:msg})
+            let message=document.querySelector(".messages");
+            const right=document.createElement("div")
+            right.classList.add("right")
+            right.textContent=msg
+            message.appendChild(right);
+            message.scrollTop=message.scrollHeight
+        })
+        socket.on("receivePrivateMsg",(data)=>{
+            
+            let message=document.querySelector(".messages");
+            const left=document.createElement("div")
+            left.classList.add("left")
+            left.textContent=data.message
+            message.appendChild(left);
+            message.scrollTop=message.scrollHeight
+
+
+        })
+        
+    </script>
+</body>
+</html>

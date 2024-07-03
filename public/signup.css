@@ -1,0 +1,45 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #f2f2f2;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+.container{
+    background-color: #fff;
+    height: 50vh;
+    width: 40vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    border-radius: 10px;
+}
+.container form .inbox{
+    width: 35vw;
+    height: 5vh;
+    display: block;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin-bottom: 15px;
+}
+
+.container form .btn{
+    width: 36vw;
+    height: 5vh;
+    display: block;
+    border-radius: 8px;
+    padding: 0 10px;
+    color: #f2f2f2;
+    background-color: #007bff;
+}
+form #received{
+    display: block;
+    color: red;
+}

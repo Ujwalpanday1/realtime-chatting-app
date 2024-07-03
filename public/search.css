@@ -1,0 +1,58 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #f2f2f2;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+.container{
+    background-color: #fff;
+    height: 85vh;
+    width: 60vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    border-radius: 10px;
+}
+.mainContainer{
+    width: 50vw;
+    height: 30vh;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.mainContainer .chatlabel{
+    width: 40vw;
+    height: 5vh;
+    
+}
+.users{
+    width: 50vw;
+    height: 25vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.users::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+.users label{
+    display: block;
+    width: 38vw;  /* Limit the width of the label */
+    white-space: normal;  /* Allow wrapping */
+    word-wrap: break-word;
+}
+.user{
+    background-color: #f2f2f2;
+    margin: 10px;
+    box-sizing: border-box;
+}

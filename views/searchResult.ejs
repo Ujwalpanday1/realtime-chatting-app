@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/search.css">
+</head>
+<body>
+    <div class="container">
+    <div class="mainContainer">
+
+        <div class="users">
+
+            <%userArray.forEach((user)=>{ %>
+                <form action="/select/<%=user._id%>" method="get">
+                <button id="selectBtn"> <div class="user">
+                    <label><%=user.fName+user.lName%></label>
+                </div></button></form>
+    <%})%>
+        </div>
+         
+    </div>
+   </div>
+</body>
+</html>
