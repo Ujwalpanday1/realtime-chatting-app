@@ -12,34 +12,71 @@ body{
     align-content: center;
 }
 .container{
-    background-color: #fff;
+    background-color: #5c5a66;
     height: 85vh;
     width: 60vw;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-content: center;
     border-radius: 10px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 255, 0.2), 
+    0 0 20px 8px rgba(255, 0, 255, 0.2), 
+    0 0 30px 12px rgba(0, 255, 255, 0.2);
 }
 .top{
-    width: 40vw;
+    width: 60vw;
     height: 10vh;
     display: flex;
     flex-wrap: wrap;
-    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    background-color: gray;
+    border-radius: 13px;
 
 }
+
+.top label{
+    font-weight: bolder;
+    margin-left: 20px;
+}
+
+.top form{
+    margin-right: 20px;
+}
+
+.top input{
+    height: 5vh;
+    width: 20vw;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.top button{
+    height: 35px;
+    width: 60px;
+    border-radius: 10px;
+    padding:5px ;
+    box-sizing: border-box;
+}
+
 .mainContainer{
-    width: 50vw;
-    height: 30vh;
+    width: 60vw;
+    margin-top: 20px;
     font-family: 'Courier New', Courier, monospace;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow:1;
 }
+
 .mainContainer .chatlabel{
-    width: 40vw;
-    height: 5vh;
+    margin-left: 20px;
+    font-weight: bolder;
+    height: fit-content;
     
 }
 .chats{
