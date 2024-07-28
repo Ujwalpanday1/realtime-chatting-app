@@ -7,7 +7,7 @@ const chatSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    UserTwo:{
+    userTwo:{
 
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
@@ -15,8 +15,8 @@ const chatSchema=new mongoose.Schema({
 
     fUserOne:"string",
     lUserOne:"string",
-    fUserTwo:"string",
-    lUserTwo:"string"
+    fuserTwo:"string",
+    luserTwo:"string"
 
 })
 const Chat=mongoose.model("Chat",chatSchema);

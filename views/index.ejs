@@ -11,23 +11,29 @@
         <div class="top">
             <label> Welcome <%=user.fName%>! </label>
 
-            <form method="get" id="searchForm">
-
+            <form class="searchForm" method="get" id="searchForm">
+                
                 <input type="text" placeholder="search" id="searchBox" name="user">
                 <button type="submit" id="searchBtn"> search</button>
-                
+                <div class="searchResult"></div>
             </form>
+
+            
+
 
         </div>
         <div class="mainContainer">
             <div class="chatlabel"><label>Your chats: </label></div>
             
             <div class="chats">
-            <%chatArray.forEach((chat)=>{%>
-                <% if(chat.userOne==user._id){%>
-                <div class="chat"> <label for=""><%=chat.userTwo %></label>  </div> <%} %>
-         
-            <% })%>
+            <%chatArray.forEach((user)=>{%>
+                <div class="chat">
+                <form action="/select/<%=user._id%>" method="get">
+                    <button id="searchButton" type="submit"> 
+                        <%=user.fName%> <%=user.lName%>
+                    </button></form></div>
+
+                <%})%>
 
             </form></div>
                   

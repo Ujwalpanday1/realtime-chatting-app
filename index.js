@@ -10,6 +10,8 @@ import userroutes from "./routes/userroutes.js"
 import {Server} from "socket.io";
 import { User } from "./models/user.js";
 import { handleMsg } from "./controllers/userControllers.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 configDotenv();
 
 
@@ -60,7 +62,12 @@ connectDb();
 app.set("view engine","ejs")
 
 // using  public for static 
-app.use(express.static("public"))
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import {loadIndex,findUser,loadChat} from "../controllers/userControllers.js"
+import {loadIndex,findUser,searchSuggestion,loadChat} from "../controllers/userControllers.js"
 import {isAuthenticated} from "../middlewares/authentication.js"
 const router=Router();
 router.get("/",isAuthenticated,loadIndex)
-router.get("/find/:name",isAuthenticated,findUser)
+router.get("/findSuggestions/:name",isAuthenticated,findUser,searchSuggestion);
 router.get("/select/:userid",isAuthenticated,loadChat);
 
 
