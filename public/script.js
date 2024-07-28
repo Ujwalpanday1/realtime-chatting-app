@@ -45,20 +45,24 @@ form.addEventListener("submit",(e)=>{
 
 searchBox.addEventListener("keyup",(e)=>{
     searchResult.innerHTML=''
-    fetch(`https://realtime-chatting-app-qnm1.onrender.com/findSuggestions/${searchBox.value}`).then((response)=>{
-        response.json().then((data)=>{
-            data.forEach((dat)=>{
-                let suggestionItem=document.createElement('div');
-                suggestionItem.className='suggestionItem'
-                suggestionItem.innerHTML=`<form action="/select/${user._id}" method="get">
-                <button id="searchButton" type="submit"> <div class="user">
-                    ${user.fName} ${user.lName}
-                </div></button></form>`
-                searchResult.appendChild(suggestionItem);
-            })
-            
-        }).catch((err)=>console.log(err))
-    }).catch((err)=>{
-        console.log("error occured",err);
-    })
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        fetch(`https://realtime-chatting-app-qnm1.onrender.com/findSuggestions/${searchBox.value}`).then((response)=>{
+            response.json().then((data)=>{
+                data.forEach((dat)=>{
+                    let suggestionItem=document.createElement('div');
+                    suggestionItem.className='suggestionItem'
+                    suggestionItem.innerHTML=`<form action="/select/${user._id}" method="get">
+                    <button id="searchButton" type="submit"> <div class="user">
+                        ${user.fName} ${user.lName}
+                    </div></button></form>`
+                    searchResult.appendChild(suggestionItem);
+                })
+                
+            }).catch((err)=>console.log(err))
+        }).catch((err)=>{
+            console.log("error occured",err);
+        })
+    }, 300); 
+    
 })
