@@ -5,8 +5,8 @@ import { Message } from "../models/message.js"
 
 let handleMsg=(data,socket)=>{
     User.findById(data.receiver).then((receiver)=>{
-        console.log(receiver.socketid)
-        socket.to(receiver.socketid).emit("receivePrivateMsg",{message:data.message})
+        
+        socket.to(receiver.socketid).emit("receivePrivateMsg",{message:data.message,sender:data.sender})
     })
 
 Chat.findOne({userOne:data.sender,userTwo:data.receiver}).then((chat)=>{
@@ -71,9 +71,9 @@ const loadIndex = async (req, res) => {
         const chatUsers = await Promise.all(
             chatArray.map((chatUserId) => User.findById(chatUserId))
         );
-
         // Render the index view with user and chatUsers
-        res.render("index", { user: user, chatArray: chatUsers });
+        
+        res.render("index", { user: user, chatArray:chatUsers ,receiver:"", messageArray:"" });
     } catch (e) {
         console.error(e);
         res.redirect("/");
@@ -113,7 +113,7 @@ const loadChat=(req,res)=>{
         Chat.findOne({userOne:req.user._id, userTwo:userid}).then((chat)=>{
             if(chat){
                 Message.find({chatId:chat._id}).then((messageArray)=>{
-                    res.render("chatBox",{receiver:user,messageArray:messageArray,sender:req.user})
+                    res.send({receiver:user,messageArray:messageArray,sender:req.user})
                 })
             }
             else{
@@ -121,12 +121,12 @@ const loadChat=(req,res)=>{
                     if(chat){
                         Message.find({chatId:chat._id}).then((messageArray)=>{
         
-                            res.render("chatBox",{receiver:user,messageArray:messageArray,sender:req.user})
+                            res.send({receiver:user,messageArray:messageArray,sender:req.user})
                         })
                     }
                     else{
 
-                        res.render("chatBox",{receiver:user,messageArray:["No messages"],sender:req.user})
+                        res.send({receiver:user,messageArray:["No messages"],sender:req.user})
                     }
                 }).catch((e)=>console.log(e))
             }

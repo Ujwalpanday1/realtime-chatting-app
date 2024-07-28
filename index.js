@@ -12,7 +12,9 @@ import { User } from "./models/user.js";
 import { handleMsg } from "./controllers/userControllers.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 configDotenv();
+
 
 
 // creating app  
@@ -21,24 +23,22 @@ const app=express();
 const server=createServer(app);
 
 const io=new Server(server)
-
-
 io.on("connection",(socket)=>{
+    console.log(socket.id)
     const socketid=socket.id;
     socket.on("login",(userid)=>{
         User.findByIdAndUpdate(userid,{
             socketid
         }).then(()=>{
-            console.log("socketId updated")
+            console.log("socketId updated:::",socketid)
         }).catch((e)=>console.log(e));
     })
     socket.on('privateMsg',(data)=>{
         handleMsg(data,socket);
     })
 
-
-
     socket.on('disconnect', () => {
+
 
         console.log('A user disconnected:', socketid);
 
