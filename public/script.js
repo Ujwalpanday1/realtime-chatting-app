@@ -65,6 +65,6 @@ searchBox.addEventListener("keyup",(e)=>{
         }).catch((err)=>{
             console.log("error occured",err);
         })
-    },0); 
+    },300); 
     
 })
