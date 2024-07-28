@@ -22,7 +22,7 @@ function allowAudioPlay() {
     searchForm.addEventListener('keyup', async (e) => {
         e.preventDefault();
         const query = searchBox.value;
-        const response = await fetch(`http://localhost:3000/findSuggestions/${query}`);
+        const response = await fetch(`https://realtime-chatting-app-qnm1.onrender.com/findSuggestions/${query}`);
         const results = await response.json();
         if(results.length==0){
             searchResult.innerHTML=`<img src="notFound.png">`
@@ -44,7 +44,7 @@ async function selectContact(userId) {
     currentChat=userId;
     searchBox.value='';
     document.querySelector('.searchResult').innerHTML=''
-    const response = await fetch(`http://localhost:3000/select/${userId}`);
+    const response = await fetch(`https://realtime-chatting-app-qnm1.onrender.com/select/${userId}`);
     const data = await response.json();
     
     const chatArea = document.getElementById('chat-area');
