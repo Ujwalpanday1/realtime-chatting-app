@@ -82,13 +82,17 @@ const loadIndex = async (req, res) => {
 
 
 const findUser=(req,res,next)=>{
-    const {name}=req.params
-    const [fName,lName]=name.split(" ")
-   
-    User.find({
-        fName: { $regex: new RegExp(fName, 'i') },
-        lName: { $regex: new RegExp(lName, 'i') }
-    }).then((userArray)=>{
+    const { name } = req.params;
+    const [fName, lName] = name.split(" ");
+    
+    let query = {
+        fName: { $regex: new RegExp(fName, 'i') }
+    };
+    
+    if (lName) {
+        query.lName = { $regex: new RegExp(lName, 'i') };
+    }
+    User.find(query).then((userArray)=>{
 
         req.userArray=userArray;
         
