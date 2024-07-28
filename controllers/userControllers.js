@@ -93,7 +93,7 @@ const findUser=(req,res,next)=>{
         query.lName = { $regex: new RegExp(lName, 'i') };
     }
     User.find(query).then((userArray)=>{
-
+        
         req.userArray=userArray;
         
         next();
