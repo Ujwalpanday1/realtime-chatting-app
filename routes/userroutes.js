@@ -5,7 +5,7 @@ const router=Router();
 router.get("/",isAuthenticated,loadIndex)
 router.get("/findSuggestions/:name",isAuthenticated,findUser,searchSuggestion);
 router.get("/select/:userid",isAuthenticated,loadChat);
-
+router.get("/getUser/:name",findUser,searchSuggestion)
 
 
 export default router

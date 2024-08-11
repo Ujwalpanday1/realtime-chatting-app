@@ -71,17 +71,20 @@ const loadIndex = async (req, res) => {
         const chatUsers = await Promise.all(
             chatArray.map((chatUserId) => User.findById(chatUserId))
         );
-        // Render the index view with user and chatUsers
-        
-        res.render("index", { user: user, chatArray:chatUsers ,receiver:"", messageArray:"" });
+     
+        res.send({
+            user: user,
+            chatArray: chatUsers,
+          });
+          
     } catch (e) {
         console.error(e);
-        res.redirect("/");
     }
 };
 
 
 const findUser=(req,res,next)=>{
+    
     const { name } = req.params;
     const [fName, lName] = name.split(" ");
     
@@ -113,7 +116,7 @@ const loadChat=(req,res)=>{
         Chat.findOne({userOne:req.user._id, userTwo:userid}).then((chat)=>{
             if(chat){
                 Message.find({chatId:chat._id}).then((messageArray)=>{
-                    res.send({receiver:user,messageArray:messageArray,sender:req.user})
+                    res.send({messageArray:messageArray})
                 })
             }
             else{
@@ -121,12 +124,12 @@ const loadChat=(req,res)=>{
                     if(chat){
                         Message.find({chatId:chat._id}).then((messageArray)=>{
         
-                            res.send({receiver:user,messageArray:messageArray,sender:req.user})
+                            res.send({messageArray:messageArray})
                         })
                     }
                     else{
 
-                        res.send({receiver:user,messageArray:["No messages"],sender:req.user})
+                        res.send({messageArray:[],sender:req.user})
                     }
                 }).catch((e)=>console.log(e))
             }

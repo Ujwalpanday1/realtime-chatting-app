@@ -12,7 +12,7 @@ import { User } from "./models/user.js";
 import { handleMsg } from "./controllers/userControllers.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import cors from 'cors'
 configDotenv();
 
 
@@ -20,29 +20,44 @@ configDotenv();
 // creating app  
 
 const app=express();
-const server=createServer(app);
 
-const io=new Server(server)
+const server =createServer(app);
+
+app.use(cors({ origin:`${process.env.FRONTEND_URI}`, credentials: true  }));
+
+
+const io = new Server(server, {
+  cors: {
+    origin: `${process.env.FRONTEND_URI}`, // Replace with your React app URL
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true // Allow credentials (cookies, authorization headers)
+  }
+});
+
+
+
+
 io.on("connection",(socket)=>{
-    console.log(socket.id)
+    console.log(socket.id,"connected to react ")
     const socketid=socket.id;
-    socket.on("login",(userid)=>{
+    socket.on("login",({userid})=>{
         User.findByIdAndUpdate(userid,{
             socketid
         }).then(()=>{
             console.log("socketId updated:::",socketid)
         }).catch((e)=>console.log(e));
     })
-    socket.on('privateMsg',(data)=>{
+    socket.on('privateMsg',({data})=>{
         handleMsg(data,socket);
     })
 
     socket.on('disconnect', () => {
 
-
         console.log('A user disconnected:', socketid);
-
         User.findOne({socketid}).then((user)=>{
+            console.log(user.socketid,"varkhar ko ma hai")
+            console.log(user)
             user.socketid=null;
             return user.save();
             
@@ -70,6 +85,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(cookieParser());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/",authroutes)

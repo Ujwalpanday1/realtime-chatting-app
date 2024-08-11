@@ -7,17 +7,12 @@ import { configDotenv } from "dotenv";
 configDotenv()
 let username,code;
 
-
-
-const loadLogin=(req,res)=>{
-    res.clearCookie("token")
-    res.render("login",{alertMsg:""})
-}
 const redirectUser=(req,res)=>{
-
     const {username,password}=req.body;
-    User.findOne({username}).select('+password').then((user)=>{
+    
 
+    User.findOne({username}).select('+password').then((user)=>{
+   
         if(user){
               if(user.password==password){
             const token=jwt.sign({_id:user._id},process.env.JWT_SECRET)
@@ -26,82 +21,50 @@ const redirectUser=(req,res)=>{
                 maxAge:30 * 24 * 60 * 60 * 1000,
                 httponly:true
             })
+            res.send(user).status(200)
+            // res.redirect("/")
+        }
+        else{
+            res.status(401).send({alertMsg:"password not matched"})
+        }
+        }
+        else{
 
-            res.redirect("/")
-        }
-        else{
-            res.render("login",{alertMsg:"password not matched"})
-        }
-        }
-        else{
-            res.render("login",{alertMsg:"Username not found"})
+            res.status(401).send({alertMsg:"Account Not Found "})
         }
       
     })
 }
 
-const clearToken=(req,res)=>{
-    res.clearCookie("token")
-    res.redirect("/login")
-}
 
-const loadSignup=(req,res)=>{
-    res.clearCookie("token")
-    res.render("signup",{alertMsg:""})
-}
-
-const redirectVerify=(req,res)=>{
-    username=req.body.username;
-    User.findOne({username}).then((user)=>{
+const register=async(req,res)=>{
+    const {username,password,fName,lName}=req.body;
+    try{
+        const user=await User.findOne({username});
         if(user){
-        res.render("signup",{alertMsg:"username already taken"})
+            res.status(401).send({alertMsg:"username already exist"})
         }
-    else
-    {
-    code=generateCode();
-    sendVerificationCode(username,code)
-    res.redirect("/verify")
-}
-    
-    }).catch((e)=>console.log(e))
-}
-
- 
-
-const loadVerify=(req,res)=>{
-    res.render("verify",{alertMsg:""})
-}
-
-const usernameVerified=(req,res)=>{
-    const usercode=req.body.code;
-    if(code==usercode){
-
-        res.redirect("/details")
-    }
-    else{
-        res.render("verify",{alertMsg:"code not matched"})
-    }
-}
-
-const loadDetails=(req,res)=>{
-    res.render('details')
-}
-
-const putDetails=(req,res)=>{
-    const {fName,lName,password}=req.body
-    User.create({
-        fName,lName,username,password
-    }).then((user)=>{
-        const token=jwt.sign({_id:user._id},process.env.JWT_SECRET)
-              
-            res.cookie("token",token,{
-                maxAge:30 * 24 * 60 * 60 * 1000,
-                httponly:true
+        else{
+            User.create({
+                fName,lName,username,password
+            }).then((user)=>{
+                const token=jwt.sign({_id:user._id},process.env.JWT_SECRET)
+                      
+                    res.cookie("token",token,{
+                        maxAge:30 * 24 * 60 * 60 * 1000,
+                        httponly:true
+                    })
+                res.send(user).status(200)
+            }).catch((e)=>{
+                console.log(e);
+                res.send("cannot create User")
             })
-        res.redirect("/")
-    })
+        }
+    }
+    catch(err){
+    
+        console.log(err)
+    }
 }
 
-
-
-export {loadLogin,redirectUser,clearToken,loadSignup,redirectVerify,loadVerify,usernameVerified,loadDetails,putDetails}
+export {redirectUser,register}
