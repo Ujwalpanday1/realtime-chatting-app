@@ -19,7 +19,7 @@ const redirectUser=(req,res)=>{
               
             res.cookie("token", token, {
                 maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-               
+                httpOnly: true,
                 secure: true,    // Ensures the cookie is only sent over HTTPS
                 sameSite: 'None' // Allows the cookie to be sent with cross-site requests
             });
@@ -54,7 +54,7 @@ const register=async(req,res)=>{
                       
                 res.cookie("token", token, {
                     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-                   
+                    httpOnly: true,
                     secure: true,    // Ensures the cookie is only sent over HTTPS
                     sameSite: 'None' // Allows the cookie to be sent with cross-site requests
                 });
