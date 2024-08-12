@@ -23,8 +23,8 @@ const redirectUser=(req,res)=>{
                 secure: true,    // Ensures the cookie is only sent over HTTPS
                 sameSite: 'None' // Allows the cookie to be sent with cross-site requests
             });
-            
-            res.send(user).status(200)
+            console.log("cookie set successfully ,new User logged in ")
+            res.status(200).send(user)
         }
         else{
             res.status(401).send({alertMsg:"password not matched"})
@@ -59,7 +59,7 @@ const register=async(req,res)=>{
                     sameSite: 'None' // Allows the cookie to be sent with cross-site requests
                 });
                 
-                res.send(user).status(200)
+                res.status(200).send(user)
             }).catch((e)=>{
                 console.log(e);
                 res.send("cannot create User")
