@@ -17,12 +17,14 @@ const redirectUser=(req,res)=>{
               if(user.password==password){
             const token=jwt.sign({_id:user._id},process.env.JWT_SECRET)
               
-            res.cookie("token",token,{
-                maxAge:30 * 24 * 60 * 60 * 1000,
-                httponly:true
-            })
+            res.cookie("token", token, {
+                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+               
+                secure: true,    // Ensures the cookie is only sent over HTTPS
+                sameSite: 'None' // Allows the cookie to be sent with cross-site requests
+            });
+            
             res.send(user).status(200)
-            // res.redirect("/")
         }
         else{
             res.status(401).send({alertMsg:"password not matched"})
@@ -50,10 +52,13 @@ const register=async(req,res)=>{
             }).then((user)=>{
                 const token=jwt.sign({_id:user._id},process.env.JWT_SECRET)
                       
-                    res.cookie("token",token,{
-                        maxAge:30 * 24 * 60 * 60 * 1000,
-                        httponly:true
-                    })
+                res.cookie("token", token, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+                   
+                    secure: true,    // Ensures the cookie is only sent over HTTPS
+                    sameSite: 'None' // Allows the cookie to be sent with cross-site requests
+                });
+                
                 res.send(user).status(200)
             }).catch((e)=>{
                 console.log(e);
