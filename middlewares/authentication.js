@@ -11,7 +11,7 @@ const isAuthenticated=(req,res,next)=>{
     }
 
     else{
-        res.redirect("/login")
+        res.status(401).send("not authorized no token")
     }
     
 }
